@@ -13,7 +13,25 @@
     const searchInput = document.getElementById("searchInput");
     const notesList = document.getElementById("notesList");
     const totalNotes = document.getElementById("totalNotes");
-    const pinnedNotes = document.getElementById("pinnedNotes");
+const pinnedNotes = document.getElementById("pinnedNotes");
+    
+
+
+function loadNotes() {
+  try {
+    return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+  } catch (error) {
+    console.warn("localStorage is unavailable; notes will reset on refresh.", error);
+    return [];
+  }
+}
+function saveNotes() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(notes));
+  } catch (error) {
+    console.warn("Unable to save notes to localStorage.", error);
+  }
+}
 
     let notes = loadNotes();
     let shouldShowSearchAlert = false;
