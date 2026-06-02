@@ -16,24 +16,7 @@
     const pinnedNotes = document.getElementById("pinnedNotes");
 
     let notes = loadNotes();
-
-    function loadNotes() {
-      try {
-        return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
-      } catch (error) {
-        console.warn("localStorage is unavailable; notes will reset on refresh in this preview.", error);
-        return [];
-      }
-    }
-
-    function saveNotes() {
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(notes));
-      } catch (error) {
-        console.warn("Unable to save notes to localStorage.", error);
-      }
-    }
-
+    let shouldShowSearchAlert = false;
     function formatDate(value) {
       return new Intl.DateTimeFormat("en", {
         month: "short",
@@ -69,6 +52,7 @@
 
     function renderNotes() {
       const visibleNotes = getFilteredNotes();
+      const query = searchInput.value.trim().toLowerCase();
       totalNotes.textContent = notes.length;
       pinnedNotes.textContent = notes.filter(note => note.pinned).length;
 
@@ -80,7 +64,16 @@
             ${message}
           </div>
         `;
+        if (shouldShowSearchAlert && query && notes.length) {
+          alert("Note not found! Please try a different search term.");
+          shouldShowSearchAlert = false;
+        }
         return;
+      }
+
+      if (shouldShowSearchAlert && query) {
+        alert(`Found ${visibleNotes.length} note(s) matching your search!`);
+        shouldShowSearchAlert = false;
       }
 
       notesList.innerHTML = visibleNotes.map(note => `
@@ -185,6 +178,9 @@
     noteForm.addEventListener("submit", addOrUpdateNote);
     clearButton.addEventListener("click", resetForm);
     clearAllButton.addEventListener("click", clearAllNotes);
-    searchInput.addEventListener("input", renderNotes);
+    searchInput.addEventListener("input", (event) => {
+      shouldShowSearchAlert = true;
+      renderNotes();
+    });
 
     renderNotes();  
