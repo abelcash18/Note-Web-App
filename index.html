@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Notes App</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="app">
+    <header>
+      <div>
+        <p class="eyebrow">Vanilla JavaScript project</p>
+        <h1>Notes App</h1>
+        <p class="subtitle">Create, edit, search, pin, color-code, and save your notes directly in the browser with localStorage.</p>
+      </div>
+      <div class="stats" aria-label="Notes summary">
+        <span class="stat"><span id="totalNotes">0</span> notes</span>
+        <span class="stat"><span id="pinnedNotes">0</span> pinned</span>
+      </div>
+    </header>
+
+    <section class="layout">
+      <form class="panel" id="noteForm">
+        <h2 id="formTitle">Add a note</h2>
+        <input type="hidden" id="noteId" />
+
+        <div class="field">
+          <label for="titleInput">Title</label>
+          <input id="titleInput" type="text" placeholder="Example: Project ideas" maxlength="80" required />
+        </div>
+
+        <div class="field">
+          <label for="bodyInput">Note</label>
+          <textarea id="bodyInput" placeholder="Write your note here..." required></textarea>
+        </div>
+
+        <div class="row">
+          <div class="field">
+            <label for="colorInput">Color</label>
+            <select id="colorInput">
+              <option value="#c7d2fe">Indigo</option>
+              <option value="#bae6fd">Blue</option>
+              <option value="#bbf7d0">Green</option>
+              <option value="#fde68a">Yellow</option>
+              <option value="#fecdd3">Rose</option>
+              <option value="#ddd6fe">Purple</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="pinInput">Pinned</label>
+            <select id="pinInput">
+              <option value="false">No</option>
+              <option value="true">Yes</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button class="btn-primary" type="submit" id="saveButton">Save note</button>
+          <button class="btn-ghost" type="button" id="clearButton">Clear</button>
+        </div>
+      </form>
+
+      <section>
+        <div class="toolbar">
+          <div class="search-wrap">
+            <span aria-hidden="true">⌕</span>
+            <label class="sr-only" for="searchInput">Search notes</label>
+            <input id="searchInput" type="search" placeholder="Search by title or text..." />
+          </div>
+          <button class="btn-ghost" type="button" id="clearAllButton">Clear all</button>
+        </div>
+
+        <div class="notes-grid" id="notesList" aria-live="polite"></div>
+      </section>
+    </section>
+  </main>
+</body>
+</html>
